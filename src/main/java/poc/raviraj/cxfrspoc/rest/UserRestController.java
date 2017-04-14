@@ -33,20 +33,17 @@ public class UserRestController {
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{userId}/{version}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<User> delete(@PathVariable("userId") Long userId) {
+	public ResponseEntity<Boolean> delete(@PathVariable("userId") Long userId, @PathVariable("version") Long version) {
 		User deleteUser = new User();
 		deleteUser.setUserId(userId);
+		deleteUser.setVersion(version);
 		User u = userDao.delete(deleteUser);
-		if (u != null) {
-			if (u.getDeleteFlag() == 1) {
-				return new ResponseEntity<User>(deleteUser, HttpStatus.OK);
-			}else{
-				return new ResponseEntity<User>(deleteUser, HttpStatus.FOUND);
-			}
+		if (u == null) {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
-		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
@@ -61,7 +58,7 @@ public class UserRestController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<User>> findAll(@RequestParam(value = "search", defaultValue = "", required = false) String searchText) {
+	public ResponseEntity<List<User>> findAll(@RequestParam(value = "search", defaultValue = "") String searchText) {
 		List<User> list = null;
 		if (searchText.length() == 0) {
 			list = userDao.findAll();

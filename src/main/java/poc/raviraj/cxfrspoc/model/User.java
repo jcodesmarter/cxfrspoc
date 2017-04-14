@@ -21,6 +21,12 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import poc.raviraj.cxfrspoc.custom.CustomDateDeserializer;
+import poc.raviraj.cxfrspoc.custom.CustomDateSerializer;
+
 @Entity
 @Table(name = "poc_users")
 @SQLDelete(sql = "UPDATE poc_users SET deleteFlag = 1 WHERE userId = ? AND version = ?", check = ResultCheckStyle.COUNT)
@@ -46,6 +52,8 @@ public class User extends AuditableModel {
 	@JoinColumn(name = "genderId")
 	private Gender gender;
 
+	@JsonSerialize(using = CustomDateSerializer.class)	
+	@JsonDeserialize(using = CustomDateDeserializer.class)	
 	@Temporal(TemporalType.DATE)
 	private Date dateOfJoining;
 
@@ -111,7 +119,7 @@ public class User extends AuditableModel {
 	public Date getDateOfJoining() {
 		return dateOfJoining;
 	}
-
+	
 	public void setDateOfJoining(Date dateOfJoining) {
 		this.dateOfJoining = dateOfJoining;
 	}

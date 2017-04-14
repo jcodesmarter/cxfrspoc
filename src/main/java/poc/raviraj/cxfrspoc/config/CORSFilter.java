@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CORSFilter implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-    public CORSFilter() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public CORSFilter() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Filter#destroy()
@@ -34,15 +34,12 @@ public class CORSFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		if (((HttpServletRequest) request).getHeader("Access-Control-Request-Method") != null && "OPTIONS".equals(((HttpServletRequest) request).getMethod())) {
-			// CORS "pre-flight" request
-			((HttpServletResponse) response).addHeader("Access-Control-Allow-Origin", "http://localhost:8888");
-			((HttpServletResponse) response).addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//			response.addHeader("Access-Control-Allow-Headers", "Authorization");
-            ((HttpServletResponse) response).addHeader("Access-Control-Allow-Headers", "Content-Type, X-HTTP-Method-Override");
-            
-			((HttpServletResponse) response).addHeader("Access-Control-Max-Age", "1");
-		}
+		((HttpServletResponse) response).addHeader("Access-Control-Allow-Origin", "http://localhost:8333");
+		((HttpServletResponse) response).addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		// response.addHeader("Access-Control-Allow-Headers", "Authorization");
+		((HttpServletResponse) response).addHeader("Access-Control-Allow-Headers", "Content-Type, X-HTTP-Method-Override");
+		((HttpServletResponse) response).setHeader("Access-Control-Allow-Credentials", "false");
+		((HttpServletResponse) response).addHeader("Access-Control-Max-Age", "1");
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}

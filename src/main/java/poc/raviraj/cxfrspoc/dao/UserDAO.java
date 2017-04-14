@@ -34,14 +34,9 @@ public class UserDAO extends AbstractDAO {
 		Session session = getSession();
 		Transaction tx = session.getTransaction();
 		tx.begin();
-		System.out.println("Delete user called for ID: " + user.getUserId());
 		session.delete(user);
-		
-		User deletedUser = (User) session.get(User.class, user.getUserId());
-		System.out.println("After Delete user called for ID: " + user.getUserId());
-		System.out.println("Before delete commit");
 		tx.commit();
-		System.out.println("After delete commit");
+		User deletedUser = (User) session.get(User.class, user.getUserId());
 		session.close();
 		return deletedUser;
 	}

@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @Import(value = { DatabaseBeanConfiguration.class })
-@ComponentScan(basePackages = { "poc.raviraj.cxfrspoc.rest", "poc.raviraj.cxfrspoc.dao" })
+@ComponentScan(basePackages = { "poc.raviraj.cxfrspoc.rest", "poc.raviraj.cxfrspoc.dao", "poc.raviraj.cxfrspoc.custom" })
 @EnableWebMvc
 public class ServiceBeanConfiguration extends WebMvcConfigurerAdapter {
 
